@@ -4,11 +4,12 @@
       <h3>Pesquise seu livro</h3>
       <div class="form-inline">
       <input
-      class="form-control mr-sm-2"
-      type="search"
+        class="form-control mr-sm-2"
+        type="search"
         placeholder="Escreva aqui..."
         aria-label="Search"
-        />
+        [formControl]="queryField"
+      />
         <button (click)="searchBook()" class="btn btn-success">
           <i class="fa fa-search"></i>
         </button>
@@ -27,9 +28,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr >
-        <th scope="row"></th>
-
+      <tr *ngFor="let result of results$ | async">
+        <td>{{ result.name }}</td>
+        <td>{{ result.version }}</td>
+        <td>{{ result.version }}</td>
+        <td>{{ result.version }}</td>
       </tr>
     </tbody>
   </table>
