@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "search-book": {
@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "search-book"
+    }
+  },
+  "defaultProject": "search-book",
+  "cli": {
+    "analytics": "917764f2-7072-4b3a-9280-b17995bfe985"
+  }
 }
