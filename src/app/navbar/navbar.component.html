@@ -9,7 +9,7 @@
         placeholder="Escreva aqui..."
         aria-label="Search"
         />
-        <button (click)="searchBook()" class="btn btn-success">
+        <button (click)="getLivros()" class="btn btn-success">
           <i class="fa fa-search"></i>
         </button>
       </div>
@@ -27,9 +27,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr >
-        <th scope="row"></th>
-
+      <tr *ngFor="let livro of livros">
+        <td>{{ livro.id }}</td>
+        <td>{{ livro.nome }}</td>
+        <td>{{ livro.autor }}</td>
+        <td>{{ livro.valor }}</td>
+        <td>{{ livro.dataPublicacao }}</td>
       </tr>
     </tbody>
   </table>

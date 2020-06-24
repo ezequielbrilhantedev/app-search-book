@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 import { LivrosService } from './../service/livros.service';
 import { Livro } from './../models/livro.models';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { tap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navbar',
@@ -10,17 +14,37 @@ import { Livro } from './../models/livro.models';
 })
 export class NavbarComponent implements OnInit {
 
-  livros: Livro[];
+  queryField = new FormControl();
 
-  constructor(private livroService: LivrosService) { }
+  livros: Livro[] = [];
+
+  // livros: Livro[];
+  // results$: Observable<Livro>
+
+  // ngOnInit(): void {
+  //   this.searchBook();
+  // }
+
+  // searchBook() {
+  //   this.livroService.getLivros();
+  // }
+
+  // readonly SEARCH_URL = 'https://www.googleapis.com/books/v1/volumes'
+  // results$: Observable<Livro>
+  // total: number;
+
+
+  constructor(private http: HttpClient,
+              private livroService: LivrosService) { }
 
   ngOnInit(): void {
-    this.searchBook();
+    // this.searchBook();
+    this.getLivros()
   }
 
-  searchBook() {
-    this.livroService.getLivros(valueLivro: string).subscribe(dados => {
-
+  getLivros() {
+    this.livroService.getLivros().subscribe(livros => {
+      this.livros = livros;
     })
   }
 
