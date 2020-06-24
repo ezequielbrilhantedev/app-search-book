@@ -8,9 +8,8 @@
         type="search"
         placeholder="Escreva aqui..."
         aria-label="Search"
-        [formControl]="queryField"
-      />
-        <button (click)="searchBook()" class="btn btn-success">
+        />
+        <button (click)="getLivros()" class="btn btn-success">
           <i class="fa fa-search"></i>
         </button>
       </div>
@@ -28,11 +27,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let result of results$ | async">
-        <td>{{ result.name }}</td>
-        <td>{{ result.version }}</td>
-        <td>{{ result.version }}</td>
-        <td>{{ result.version }}</td>
+      <tr *ngFor="let livro of livros">
+        <td>{{ livro.id }}</td>
+        <td>{{ livro.nome }}</td>
+        <td>{{ livro.autor }}</td>
+        <td>{{ livro.valor }}</td>
+        <td>{{ livro.dataPublicacao }}</td>
       </tr>
     </tbody>
   </table>

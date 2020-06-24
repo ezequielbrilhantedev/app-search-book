@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+
 
 import { LivrosService } from './../service/livros.service';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { tap, map, filter, distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
-
 import { Livro } from './../models/livro.models';
+import { stringify } from 'querystring';
+import { APIResponse } from '../models/api-response.models';
+import { debounceTime, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navbar',
@@ -14,38 +15,60 @@ import { Livro } from './../models/livro.models';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  queryField = new FormControl();
-  readonly SEARCH_URL = 'https://www.googleapis.com/books/v1/volumes?q=';
-  results$: Observable<any>;
+  
+  livroFormGroup: FormGroup;
+  livroObservable: Observable<any>;
   total: number;
 
-  livros: Livro[];
+  livros: Livro[] = [];
+  livroSelected: Livro = null;
 
-  constructor(private http: HttpClient) { }
+  searchLivros = '';
+
+  // livros: Livro[];
+  // results$: Observable<Livro>
+
+  // ngOnInit(): void {
+  //   this.searchBook();
+  // }
+
+  // searchBook() {
+  //   this.livroService.getLivros();
+  // }
+
+  // readonly SEARCH_URL = 'https://www.googleapis.com/books/v1/volumes'
+  // results$: Observable<Livro>
+  // total: number;
+
+  constructor(private livroService: LivrosService) { }
 
   ngOnInit() {
-    this.results$ = this.queryField.valueChanges
-    .pipe(
-      map(value => value.trim()),
-      filter(value => value.length > 1),
-      debounceTime(200),
-      distinctUntilChanged(),
-      // tap(value => console.log(value)),
-      switchMap(value => this.http.get(this.SEARCH_URL, {
-        params: {
-          search: value,
-          // fields: this.FIELDS
-        }
-      })),
-      tap((res: any) => this.total = res.total),
-      map((res: any) => res.results)
-    );
+    this.livroFormGroup = new FormGroup({
+      nome: new FormControl(null, [Validators.required]),
+      autor: new FormControl(null, [Validators.required]),
+      valor: new FormControl(null, [Validators.required]),
+      dataPublicacao: new FormControl(null, [Validators.required])
+    })
+
+    this.livroService.getLivros().subscribe((res:APIResponse<Livro>) => {
+      this.livros = res.results 
+    })
+
+    this.livroObservable = Observable.create((observer: any) => {
+      observer.next(this.searchLivros);
+    }).pipe(
+      debounceTime(2000),
+      mergeMap((search: string) => this.livroService.getLivros(
+        this.livroSelected.nome,
+        search
+      ))
+    )
   }
 
-  searchBook() {
-    // this.livroService.getLivros(valueLivro: string).subscribe(dados => {
-
-    // })
+  getLivros() {
+    this.livroService.getLivros().subscribe((res:APIResponse<Livro>) => {
+      this.livros = res.results 
+    })
   }
 
 }
