@@ -1,0 +1,53 @@
+<div class="input">
+  <input
+    type="text"
+    [(ngModel)]="searchItemBook"
+    typeaheadOptionField="volumeInfo.title"
+    id="input-search"
+    placeholder="Digite aqui"
+  />
+  <button (click)="buscarLivros()" class="input__button_search">
+    Pesquisar
+  </button>
+</div>
+
+<span *ngFor="let item of items">
+  <p>{{ item | json }}</p>
+</span>
+
+<!-- {{ books | json }} -->
+<form [formGroup]="formListBook">
+  <div class="row">
+    <div class="col"></div>
+  </div>
+</form>
+
+<!-- <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Título</th>
+      <th scope="col">Autor</th>
+      <th scope="col">Data de publicação</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td colspan="2">Larry the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table> -->
