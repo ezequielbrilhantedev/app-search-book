@@ -16,6 +16,8 @@ export class SearchComponent implements OnInit {
 
   searchItemBook: string = '';
 
+  // spinner: boolean = false;
+
   constructor(private service: SearchService) { }
 
   ngOnInit(): void {
@@ -23,17 +25,25 @@ export class SearchComponent implements OnInit {
 
   buscarLivros() {
     let valorInput = this.searchItemBook.valueOf()
-    this.service.getBuscarLivroPorNome(valorInput).subscribe((items: Book[]) => {
-      this.items = items;
-    })
+    if (!valorInput) {
+      alert('Por favor, preencha o campo com algum nome de filme')
+    }
+    this.service.getBuscarLivroPorNome(valorInput).subscribe(
+      (items: Book[]) => {
+        this.items = items;
+        // this.spinner = true
+      },
+      err => { }
+    )
+    // this.spinner = false
   }
 
-  // formTableBook(book: Book) {
+  // formBook(book: Book) {
   //   this.formListBook = new FormGroup({
   //     titulo: new FormControl(book.volumeInfo.title),
-  //     autor: new FormControl(book.volumeInfo.authors),
-  //     data_publicacao: new FormControl(book.volumeInfo.publishedDate),
-  //     descricao: new FormControl(book.volumeInfo.description),
+  //     // autor: new FormControl(book.volumeInfo.authors),
+  //     // data_publicacao: new FormControl(book.volumeInfo.publishedDate),
+  //     // descricao: new FormControl(book.volumeInfo.description),
   //   })
   //   this.searchItemBook = book.volumeInfo.title
   // }

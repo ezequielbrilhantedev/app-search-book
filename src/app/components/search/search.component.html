@@ -11,16 +11,22 @@
   </button>
 </div>
 
-<span *ngFor="let item of items">
-  <p>{{ item | json }}</p>
+<!-- <div *ngIf="spinner" class="spinner-border" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div> -->
+
+<span>
+  <p>{{ items | json }}</p>
 </span>
 
-<!-- {{ books | json }} -->
-<form [formGroup]="formListBook">
+<!-- <form [formGroup]="formBook">
   <div class="row">
-    <div class="col"></div>
+    <div class="col">
+      <input type="text" name="" id="" formControlName="titulo" />
+      {{ items | json }}
+    </div>
   </div>
-</form>
+</form> -->
 
 <!-- <table class="table">
   <thead>
